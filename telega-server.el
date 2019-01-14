@@ -170,11 +170,12 @@ Raise error if not found"
          (value (prin1-to-string (telega--tl-pack sexp)))
          (proc (telega-server--proc)))
     (assert (process-live-p proc) nil "telega-server is not running")
-    (telega-debug "OUTPUT: %d %s" (string-bytes value) value)
+    (telega-debug "OUTPUT: %s %d %s"
+                  (or command "send") (string-bytes value) value)
 
     (process-send-string
      proc
-     (concat (or command "send" " ")
+     (concat (or command "send") " "
              (number-to-string (string-bytes value)) "\n"))
     (process-send-string proc value)
     (process-send-string proc "\n")))
